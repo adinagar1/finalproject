@@ -1,0 +1,13 @@
+#passwordInput {
+    -webkit-text-security: disc;
+  }
+  
+  #messageDiv {
+    color: red;
+  }
+  
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
