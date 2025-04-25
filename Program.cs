@@ -14,6 +14,7 @@ class Program
     Console.WriteLine($"Main Page: http://localhost:{port}/website/pages/index.html");
 
     var database = new Database();
+    database.Users.Add(new User("1","adi","123"));
    database.SaveChanges();
     while (true)
     {
@@ -48,12 +49,19 @@ class Program
 
             response.Send(userId);
           }
-            if (!userExists)
-            {
-              var userId = Guid.NewGuid().ToString();
-              database.Users.Add(new User(userId, username, password));
-              response.Send(userId);
-            }
+          else if(request.Path == "logout"){
+            var (username, password) = request.GetBody<(string, string)>();
+
+            var user = database.Users.First(
+              user => user.Username == username && user.Password == password
+            );
+
+            var userId = user.Id;
+
+            response.Send(userId);
+          }
+          
+         
           else
           {
             response.SetStatusCode(405);
