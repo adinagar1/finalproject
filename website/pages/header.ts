@@ -1,20 +1,15 @@
 import { send } from "../utilities";
 import { getUserId } from "./funcs";
 
-let loggedOutDiv = document.getElementById("loggedOutDiv") as HTMLDivElement;
-let logInButton = document.getElementById("logInButton") as HTMLButtonElement;
-let signUpButton = document.getElementById("signUpButton") as HTMLButtonElement;
-let loggedInDiv = document.getElementById("loggedInDiv") as HTMLDivElement;
+let loggedOutDiv = document.getElementById("LoggedOutDiv") as HTMLDivElement;
+let logInButton = document.getElementById("LogInButton") as HTMLButtonElement;
+let loggedInDiv = document.getElementById("LoggedInDiv") as HTMLDivElement;
 let greetingDiv = document.getElementById("greetingDiv") as HTMLDivElement;
-let logOutButton = document.getElementById("logOutButton") as HTMLButtonElement;
+let logOutButton = document.getElementById("LogOutButton") as HTMLButtonElement;
 
 logInButton.onclick = function () {
   top!.location.href = "logIn.html";
-};
-
-signUpButton.onclick = function () {
-  top!.location.href = "signUp.html";
-};
+}
 
 logOutButton.onclick = function logOut() {
   localStorage.removeItem("userId");
