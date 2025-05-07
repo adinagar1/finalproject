@@ -1,0 +1,63 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    background-color: #f4f4f4;
+  }
+  
+  .container {
+    padding: 20px;
+  }
+  
+  #CitiesDiv {
+    display: flex;              /* להציב את כל הכרטיסים בשורה */
+    flex-wrap: wrap;            /* אם אין מקום בשורה, לשבור לשורה הבאה */
+    justify-content: center;    /* מרכז את הכרטיסים בתוך הדיב */
+    gap: 20px;                  /* רווחים בין כל כרטיס לכרטיס */
+  }
+  
+  #CitiesDiv a {
+    display: flex;
+    flex-direction: column;     /* התמונה תהיה מעל השם של העיר */
+    align-items: center;
+    width: 150px;               /* רוחב של כל כרטיס */
+    text-decoration: none;
+    color: #333;
+    border-radius: 10px;
+    background-color: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  #CitiesDiv a:hover {
+    transform: scale(1.05);     /* אפקט התגדלות בעת ריחוף עם העכבר */
+  }
+  
+  #CitiesDiv a img {
+    width: 100%;                /* התאמת התמונה לרוחב הכרטיס */
+    height: 100px;              /* גובה קבוע לתמונה */
+    object-fit: cover;          /* למנוע שהתמונה תתעקם */
+    border-radius: 8px;         /* פינות מעוגלות לתמונה */
+  }
+  
+  #CitiesDiv a span {
+    margin-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+  }
+  h2 {
+    font-size: 32px;                  /* גודל גופן גדול */
+    font-weight: bold;                /* הדגשה של הגופן */
+    text-align: center;               /* ממרכז את הכותרת */
+    color: #ffcc00;                   /* צבע גופן בצהוב */
+    margin-bottom: 20px;              /* רווח מתחת לכותרת */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* צלליות עדינות לגופן */
+    font-family: 'Segoe UI', sans-serif; /* גופן מודרני */
+  }
+  
+  h2:hover {
+    color: #fff700;                   /* שינוי צבע הגופן בעת ריחוף */
+    transform: scale(1.1);             /* אפקט של הגדלה קטנה בעת ריחוף */
+    transition: transform 0.3s ease, color 0.3s ease; /* מעבר חלק */
+  }
+    

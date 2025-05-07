@@ -1,17 +1,19 @@
 import { send } from "../utilities";
 import { getUserId } from "./funcs";
 
-let loggedOutDiv = document.getElementById("LoggedOutDiv") as HTMLDivElement;
-let logInButton = document.getElementById("LogInButton") as HTMLButtonElement;
-let loggedInDiv = document.getElementById("LoggedInDiv") as HTMLDivElement;
-let greetingDiv = document.getElementById("greetingDiv") as HTMLDivElement;
-let logOutButton = document.getElementById("LogOutButton") as HTMLButtonElement;
+let LoggedOutDiv = document.getElementById("LoggedOutDiv") as HTMLDivElement;
+let LogInButton = document.getElementById("LogInButton") as HTMLButtonElement;
+let LoggedInDiv = document.getElementById("LoggedInDiv") as HTMLDivElement;
+let greetinDiv = document.getElementById("greetinDiv") as HTMLDivElement;
+let LogOutButton = document.getElementById("LogOutButton") as HTMLButtonElement;
 
-logInButton.onclick = function () {
+
+
+LogInButton.onclick = function () {
   top!.location.href = "logIn.html";
 }
 
-logOutButton.onclick = function logOut() {
+LogOutButton.onclick = function logOut() {
   localStorage.removeItem("userId");
   top!.location.href = "index.html";
 };
@@ -19,10 +21,11 @@ logOutButton.onclick = function logOut() {
 let userId = await getUserId();
 
 if (userId != null) {
-  let username = await send("getUsername", userId) as string;
-  greetingDiv.innerText = "Welcome, " + username + "!";
-  loggedInDiv.classList.remove("hidden");
-} else {
-  localStorage.removeItem("userId");
-  loggedOutDiv.classList.remove("hidden");
-}
+    let username = await send("getUsername", userId) as string;
+    greetinDiv.innerText = "Welcome, " + username + "!";
+    LoggedInDiv.classList.remove("hidden");
+  }
+   else{
+    localStorage.removeItem("userId");
+    LoggedOutDiv.classList.remove("hidden");
+  }
