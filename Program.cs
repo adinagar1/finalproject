@@ -12,7 +12,7 @@ class Program
 
     Console.WriteLine("The server is running");
     Console.WriteLine($"Main Page: http://localhost:{port}/website/pages/index.html");
-
+ 
     var database = new Database();
     database.Users.Add(new User("1","adi","123"));
    database.SaveChanges();
@@ -37,7 +37,15 @@ class Program
       {
         try
         {
-          if (request.Path == "logIn")
+          if (request.Path == "verifyUserId")
+          {
+            var userId = request.GetBody<string>();
+
+            var varified = database.Users.Any(user => user.Id == userId);
+
+            response.Send(varified);
+          }
+          else if (request.Path == "logIn")
           {
             var (username, password) = request.GetBody<(string, string)>();
 
@@ -49,19 +57,14 @@ class Program
 
             response.Send(userId);
           }
-          else if(request.Path == "logout"){
-            var (username, password) = request.GetBody<(string, string)>();
+          else if (request.Path == "getUsername")
+          {
+            var userId = request.GetBody<string>();
 
-            var user = database.Users.First(
-              user => user.Username == username && user.Password == password
-            );
+            var username = database.Users.Find(userId)?.Username;
 
-            var userId = user.Id;
-
-            response.Send(userId);
+            response.Send(username);
           }
-          
-         
           else
           {
             response.SetStatusCode(405);
