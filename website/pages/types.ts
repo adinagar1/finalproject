@@ -12,7 +12,8 @@ export type City = {
   }
   
   export type Reservation = {
-    Id: number,
-    Date: string,
-    Restaurant: Restaurant,
+    Id: number;
+    Time: number;
+    Name: string; 
+    Phone: number;
   }

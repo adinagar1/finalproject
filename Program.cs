@@ -117,22 +117,22 @@ class Program
           else if (request.Path == "addReservation")
           {
 
-            var (date, userId, restaurantId) = request.GetBody<(string, string, int)>();
+            var (time, name, phone, restaurantId) = request.GetBody<(int, string, int, int)>();
             var exists = database
               .Reservations
-              .Any(res => res.RestaurantId == restaurantId && res.Date == date);
+              .Any(res => res.RestaurantId == restaurantId && res.Time == time);
             if (!exists)
             {
-              database.Reservations.Add(new Reservation(date, userId, restaurantId));
+              database.Reservations.Add(new Reservation(time, name, phone, restaurantId));
             }
             var success = !exists;
             response.Send(success);
           }
-          else if (request.Path == "getReservations")
+          else if (request.Path == "getReservation")
           {
-            var userId = request.GetBody<string>();
+            var restaurantId = request.GetBody<int>();
 
-            var reservations = database.Reservations.Where(reservation => reservation.UserId == userId).ToArray();
+            var reservations = database.Reservations.Where(reservation => reservation.RestaurantId == restaurantId).ToArray();
 
             response.Send(reservations);
           }
@@ -165,9 +165,7 @@ class Database() : DbBase("database")
   public DbSet<City> Cities { get; set; } = default!;
   public DbSet<Restaurant> Restaurants { get; set; } = default!;
   public DbSet<Reservation> Reservations { get; set; } = default!;
-    public DbSet<Dish> Dishes { get; set; } = default!;
-    public DbSet<Ingredient> Ingredients { get; set; } = default!;
-    public DbSet<Drink> Drinks { get; set; } = default!;
+
 }
 
 class User(string id, string username, string password)  // מחלקה שמתארת את המשתמש
@@ -190,38 +188,13 @@ class Restaurant(string name, string image, int cityId)
   public int CityId { get; set; } = cityId;
   [ForeignKey("CityId")] public City City { get; set; } = default!;
 }
-class Reservation(string date, string userId, int restaurantId )
+class Reservation(int time, string name, int phone, int restaurantId )
 {
   [Key] public int Id { get; set; } = default!;
-  public string Date { get; set; } = date;
-  public string UserId { get; set; } = userId;
+  public int Time { get; set; } = time;
+  public string Name { get; set; } = name;
+  public int Phone { get; set; } = phone;
   [ForeignKey("UserId")] public User User { get; set; } = default!;
   public int RestaurantId { get; set; } = restaurantId;
   [ForeignKey("RestaurantId")] public Restaurant Restaurant { get; set; } = default!;
 }
-class Dish(string name, string imageSource, string description, float price) {  // מחלקה שמתארת מנה במסעדה
-  [Key] public int Id { get; set; } = default!;  // מזהה ייחודי לכל מנה במסעדה, המשמש לאיתור המנה במאגר הנתונים
-  public string Name { get; set; } = name;  // שם המנה (למשל: "פיצה מרגריטה")
-  public string ImageSource { get; set; } = imageSource;  // מקור התמונה של המנה (URL או נתיב לתמונה)
-  public string Description { get; set; } = description;  // תיאור המנה (למשל: "פיצה עם גבינת מוצרלה ועגבניות")
-  public float Price { get; set; } = price;  // מחיר המנה (למשל: 45.50 ש"ח)
-}
-
-
-class Ingredient(int dishId, string name, float amount) {  // מחלקה שמתארת את החומרים במנה
-  [Key] public int Id { get; set; } = default!;  // מזהה ייחודי לכל חומר, המשמש לאיתור החומר במאגר הנתונים
-  public string Name { get; set; } = name;  // שם החומר (למשל: "קמח", "שמן זית")
-  public float Amount { get; set; } = amount;  // כמות החומר במנה (למשל: 200 גרם קמח או 50 מ"ל שמן)
-
-  public int DishId { get; set; } = dishId;  // מזהה המנה שאליה שייך החומר, נקשר עם המנה הרלוונטית (למשל: המנה "פיצה מרגריטה")
-  [ForeignKey("DishId")] public Dish? Dish { get; set; } = default!;  // קשר למנה שאליה שייך החומר, משמש למנוע טעויות בהפניות
-}
-
-class Drink(string name, string imageSource, string description, float price) {  // מחלקה שמתארת משקה בתפריט
-  [Key] public int Id { get; set; } = default!;  // מזהה ייחודי לכל משקה בתפריט
-  public string Name { get; set; } = name;  // שם המשקה (למשל: "מיץ תפוזים", "קפה")
-  public string ImageSource { get; set; } = imageSource;  // מקור התמונה של המשקה (URL או נתיב לתמונה)
-  public string Description { get; set; } = description;  // תיאור המשקה (למשל: "מיץ טבעי סחוט")
-  public float Price { get; set; } = price;  // מחיר המשקה (למשל: 15.50 ש"ח)
-}
-
