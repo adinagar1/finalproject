@@ -125,16 +125,28 @@ class Program
             {
               database.Reservations.Add(new Reservation(time, name, phone, restaurantId));
             }
-            var success = !exists;
-            response.Send(success);
+            var reservationId = database
+              .Reservations
+              .Where(res => res.RestaurantId == restaurantId && res.Time == time)
+              .Select(reservation => reservation.Id)
+              .FirstOrDefault();
+            response.Send(reservationId);
           }
           else if (request.Path == "getReservation")
-          {
+        {
+            var reservationId = request.GetBody<int>();
+
+            var reservation = database.Reservations.Find(reservationId);
+
+            response.Send(reservation);
+          }
+        }
+          else if (request.Path == "getHours"){
             var restaurantId = request.GetBody<int>();
-
-            var reservations = database.Reservations.Where(reservation => reservation.RestaurantId == restaurantId).ToArray();
-
-            response.Send(reservations);
+            var hours = database.Reservations
+            .Where(res => res.RestaurantId == restaurantId) 
+            .Select(reservation => reservation.Time).ToArray();
+            response.Send(hours);
           }
           else
           {
@@ -194,7 +206,6 @@ class Reservation(int time, string name, int phone, int restaurantId )
   public int Time { get; set; } = time;
   public string Name { get; set; } = name;
   public int Phone { get; set; } = phone;
-  [ForeignKey("UserId")] public User User { get; set; } = default!;
   public int RestaurantId { get; set; } = restaurantId;
   [ForeignKey("RestaurantId")] public Restaurant Restaurant { get; set; } = default!;
 }

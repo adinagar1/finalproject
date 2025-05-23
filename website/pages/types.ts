@@ -16,4 +16,5 @@ export type City = {
     Time: number;
     Name: string; 
     Phone: number;
+    RestaurantId: number;
   }
