@@ -77,8 +77,37 @@
     transition: background-color 0.3s ease;
   }
   
-  .card button:hover {
-    background-color: #e6c200;
-  }
 
-  
+  #placeContainer {
+    display: grid;
+    grid-template-columns: repeat(10, 1fr);
+    gap: 10px;
+    width: auto;
+    margin-top: 20px;
+}
+
+.place_button {
+  width: 40px;
+  height: 40px;
+  font-size: 14px;
+  background-color: #ffcc00;
+  color: #000;
+  cursor: pointer;
+}
+
+.place_button.available{
+  background-color: #ffcc00;
+  color: #000;
+  cursor: pointer;
+}
+.place_button.unavailable {
+  background-color: blue;
+  color: white;
+  cursor: not-allowed;
+}
+
+.place_button.selected {
+  background-color: green;
+  color: white;
+  cursor: pointer;
+}

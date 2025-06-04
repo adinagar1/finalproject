@@ -16,5 +16,12 @@ export type City = {
     Time: number;
     Name: string; 
     Phone: number;
+    Place: number;
+    RestaurantId: number;
+  }
+  export type Place = {
+    Id: number;
+    Available: boolean;
+    Time: number;
     RestaurantId: number;
   }

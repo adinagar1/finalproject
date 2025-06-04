@@ -6,6 +6,12 @@ let LogInButton = document.getElementById("LogInButton") as HTMLButtonElement;
 let LoggedInDiv = document.getElementById("LoggedInDiv") as HTMLDivElement;
 let greetinDiv = document.getElementById("greetinDiv") as HTMLDivElement;
 let LogOutButton = document.getElementById("LogOutButton") as HTMLButtonElement;
+let buttoncreate = document.createElement("button");
+buttoncreate.innerText = "Add Restaurant";
+buttoncreate.appendChild(LogInButton);
+
+buttoncreate.onclick = function () {}
+
 
 
 
