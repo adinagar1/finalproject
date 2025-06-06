@@ -51,7 +51,8 @@ body {
     flex-wrap: wrap;            /* אם אין מקום בשורה, לשבור לשורה הבאה */
     justify-content: center;    /* מרכז את הכרטיסים בתוך הדיב */
     gap: 20px;        
-              /* רווחים בין כל כרטיס לכרטיס */
+    color: #000;
+    
   }
   #Divbutton a:hover {
     transform: scale(1.05);     /* אפקט התגדלות בעת ריחוף עם העכבר */
@@ -104,12 +105,6 @@ body {
   cursor: pointer; /* מצביע על כך שזה לחיץ */
 
 }
-
-.popup-modal button + button {
-  margin-left: 10px;
-  cursor: pointer; /* מצביע על כך שזה לחיץ */
-
-}
 #sumbit{
   background-color: #ffcc00; /* צבע רקע צהוב */
   color: #333; /* צבע טקסט כהה */
@@ -133,4 +128,15 @@ body {
 
 .hidden {
   display: none !important; /* מחביא אלמנטים כשצריך */
+}
+#addRestaurantButton{
+  background: linear-gradient(145deg, #ffcc00, #ffdb4d);
+  color: #000;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 25px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
 }

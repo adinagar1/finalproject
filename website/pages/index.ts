@@ -25,6 +25,7 @@ for (let i = 0; i < cities.length; i++) {
 
 let button = document.createElement("button");
 button.innerText = "Add Restaurant";
+button.id = "addRestaurantButton";
 button.onclick = async function () {
 if (document.getElementById("popup")) return;
 

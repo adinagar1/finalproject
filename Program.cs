@@ -42,7 +42,7 @@ class Program
         {
             for (int hour = 7; hour <= 21; hour++)
             {
-                for (int i = 0; i < 30; i++)
+                for (int i = 0; i < 28; i++)
                 {
                     var place = new Place(true, hour, restaurant.Id);
                     database.Places.Add(place);
@@ -178,7 +178,7 @@ class Program
                     }
                     else if (request.Path == "addReservation")
                     {
-                        var (time, name, phone, places, restaurantId) = request.GetBody<(int, string, int, int, int)>();
+                        var (time, name, phone, places, restaurantId) = request.GetBody<(int, string, string, int, int)>();
                         var exists = database
                             .Reservations
                             .Any(res => res.RestaurantId == restaurantId && res.Time == time && res.Name == name && res.Phone == phone && res.Places == places);
@@ -327,12 +327,12 @@ class Restaurant(string name, string image, int cityId)
   public int CityId { get; set; } = cityId;
   [ForeignKey("CityId")] public City City { get; set; } = default!;
 }
-class Reservation(int time, string name, int phone,int places, int restaurantId )
+class Reservation(int time, string name, string phone,int places, int restaurantId )
 {
   [Key] public int Id { get; set; } = default!;
   public int Time { get; set; } = time;
   public string Name { get; set; } = name;
-  public int Phone { get; set; } = phone;
+  public string Phone { get; set; } = phone;
   public int Places { get; set; } = places;
   public int RestaurantId { get; set; } = restaurantId;
   [ForeignKey("RestaurantId")] public Restaurant Restaurant { get; set; } = default!;

@@ -91,7 +91,6 @@ reservationGroup.appendChild(document.createElement("br"));
 let placeContainer = document.createElement("div");
 placeContainer.id = "placeContainer";
 reservationGroup.appendChild(placeContainer);
-
 // שינוי שעה => הצגת מקומות
 timeSelect.onchange = async function () {
     placeContainer.innerHTML = "";
@@ -99,29 +98,85 @@ timeSelect.onchange = async function () {
     let placesArray = await send("getPlaces", [restaurantId, parseInt(timeSelect.value)]) as Place[];
 
 
-    for (let i = 0; i < placesArray.length; i++) {
-        let placeButton = document.createElement("button");
-        console.log(placesArray[i]);
-        placeButton.innerText = (i + 1).toString();
-        placeButton.value = placesArray[i].Id.toString();
-        placeButton.classList.add("place_button"); // ← סודר! זה מה שמחפש מאוחר יותר
+    let allButtons: HTMLButtonElement[] = [];
 
-        if (placesArray[i].Available === true) {
-            placeButton.classList.add("available");
-            placeButton.onclick = function () {
-                placeButton.classList.toggle("selected");
-            };
-        } else {
-            placeButton.classList.add("unavailable");
-            placeButton.disabled = true;
-        }
-
-        placeContainer.appendChild(placeButton);
+    for (let i = 0; i < placesArray.length && i < 28; i++) {  // <-- כאן מגבילים ל-28 כפתורים
+      let placeButton = document.createElement("button");
+      placeButton.innerText = (i + 1).toString();
+      placeButton.value = placesArray[i].Id.toString();
+      placeButton.classList.add("place_button");
+    
+      if (placesArray[i].Available === true) {
+        placeButton.classList.add("available");
+        placeButton.onclick = function () {
+          placeButton.classList.toggle("selected");
+        };
+      } else {
+        placeButton.classList.add("unavailable");
+        placeButton.disabled = true;
+      }
+    
+      placeContainer.appendChild(placeButton);
+      allButtons.push(placeButton);
     }
-};
 
-reservationGroup.appendChild(document.createElement("br"));
+    let img = document.createElement("img");
+    img.src = "https://img.adira.co.il/Products/163/1573043898-pic1_org.jpg";
+    img.classList.add("bar-image");
+    placeContainer.appendChild(img);
+    
 
+    let total = 28; // עכשיו יהיה מקסימום 28
+    const topButtons = 7;
+    const rightButtons = 7;
+    const bottomButtons = 7;
+    const leftButtons = 7;
+    
+    const containerSize = 400;
+    const buttonSize = 40;
+    const offset = 20;
+    
+    const stepXTop = (containerSize - 2 * offset - buttonSize) / (topButtons - 1);
+    const stepYRight = (containerSize - 2 * offset - buttonSize) / (rightButtons - 1);
+    const stepXBottom = (containerSize - 2 * offset - buttonSize) / (bottomButtons - 1);
+    const stepYLeft = (containerSize - 2 * offset - buttonSize) / (leftButtons - 1);
+    
+    for (let i = 0; i < total; i++) {
+      const btn = allButtons[i];
+      btn.style.position = "absolute";
+      btn.style.width = `${buttonSize}px`;
+      btn.style.height = `${buttonSize}px`;
+    
+      if (i < topButtons) {
+        // למעלה
+        let x = (offset + i * stepXTop)+50;
+        let y = (offset)+40;
+        btn.style.left = `${x}px`;
+        btn.style.top = `${y}px`;
+      } else if (i < topButtons + rightButtons) {
+        // ימין
+        let y = (offset + (i - topButtons) * stepYRight)+40;
+        let x = (containerSize - offset - buttonSize)+100;
+        btn.style.left = `${x}px`;
+        btn.style.top = `${y}px`;
+      } else if (i < topButtons + rightButtons + bottomButtons) {
+        // למטה
+        const index = i - (topButtons + rightButtons);
+        let x = (offset + (bottomButtons - 1 - index) * stepXBottom)+50;
+        let y =(containerSize - offset - buttonSize)+40;
+        btn.style.left = `${x}px`;
+        btn.style.top = `${y}px`;
+      } else {
+        // שמאל
+        const index = i - (topButtons + rightButtons + bottomButtons);
+        let y = (offset + (leftButtons - 1 - index) * stepYLeft)+40;
+        const x = offset;
+        btn.style.left = `${x}px`;
+        btn.style.top = `${y}px`;
+      }
+    }
+    
+}
 // כפתור אישור
 let confirmButton = document.createElement("button");
 confirmButton.innerText = "Confirm";
@@ -137,7 +192,7 @@ confirmButton.onclick = async function () {
     if (timeSelect.value != "" && phoneInput.value.length == 10 && phoneInput.value.startsWith("05") && phoneInput.value.match(/^[0-9]+$/)) {
         let time = parseInt(timeSelect.value);
         let name = nameInput.value;
-        let phone = parseInt(phoneInput.value);
+        let phone =phoneInput.value;
         let selectedButtons = document.querySelectorAll(".place_button.selected");
         let selectedPlaceCount = selectedButtons.length;
         let selectedPlaceIds = Array.from(selectedButtons).map(
@@ -220,6 +275,19 @@ myReserveButton.onclick = async function () {
 
     let idInput2 = document.createElement("input");
     viewGroup.appendChild(idInput2);
+
+    viewGroup.appendChild(document.createElement("br"));
+    viewGroup.appendChild(document.createElement("br"));
+
+    let phoneDiv2 = document.createElement("div");
+    phoneDiv2.innerText = "Enter your phone number: ";
+    viewGroup.appendChild(phoneDiv2);
+
+    viewGroup.appendChild(document.createElement("br"))
+    ;
+    let phoneInput2 = document.createElement("input");
+    viewGroup.appendChild(phoneInput2);
+
     viewGroup.appendChild(document.createElement("br"));
     viewGroup.appendChild(document.createElement("br"));
 
@@ -232,6 +300,7 @@ myReserveButton.onclick = async function () {
     viewGroup.appendChild(backButton);
 
     findMyReservationButton.onclick = async function () {
+
         // נקה תצוגה ישנה
         const oldInfo = document.querySelector("#reservationInfo");
         if (oldInfo) oldInfo.remove();
@@ -244,7 +313,7 @@ myReserveButton.onclick = async function () {
     
         let myReservation = await send("getReservation", id) as Reservation;
     
-        if (myReservation) {
+        if (myReservation && phoneInput2.value === myReservation.Phone.toString()) {
             let reservationInfoDiv2 = document.createElement("div");
             reservationInfoDiv2.id = "reservationInfo";
             reservationInfoDiv2.innerText =
@@ -260,6 +329,7 @@ myReserveButton.onclick = async function () {
                 if (deleteReservation) {
                     alert("Your reservation has been deleted successfully.");
                     idInput2.value = "";
+                    phoneInput2.value = "";
                     reservationInfoDiv2.remove();
                     deleteButton.remove();
                 } else {
@@ -269,6 +339,7 @@ myReserveButton.onclick = async function () {
         } else {
             alert("No reservation found with this information.");
             idInput2.value = "";
+            phoneInput2.value = "";
         }
     };
 
