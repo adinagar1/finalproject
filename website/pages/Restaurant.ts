@@ -232,14 +232,40 @@ myReserveButton.onclick = async function () {
     viewGroup.appendChild(backButton);
 
     findMyReservationButton.onclick = async function () {
+        // נקה תצוגה ישנה
+        const oldInfo = document.querySelector("#reservationInfo");
+        if (oldInfo) oldInfo.remove();
+    
         let id = parseInt(idInput2.value);
+        if (isNaN(id)) {
+            alert("Please enter a valid reservation number.");
+            return;
+        }
+    
         let myReservation = await send("getReservation", id) as Reservation;
-
+    
         if (myReservation) {
             let reservationInfoDiv2 = document.createElement("div");
+            reservationInfoDiv2.id = "reservationInfo";
             reservationInfoDiv2.innerText =
-                `Your reservation is at ${myReservation.Time} for ${myReservation.Name} with phone number: ${myReservation.Phone}. Your number of seats: ${myReservation.Place}`;
+                `Your reservation is at ${myReservation.Time}:00 for ${myReservation.Name} with phone number: ${myReservation.Phone}. Your number of seats: ${myReservation.Place}`;
             viewGroup.appendChild(reservationInfoDiv2);
+    
+            let deleteButton = document.createElement("button");
+            deleteButton.innerText = "Delete";
+            viewGroup.appendChild(deleteButton);
+    
+            deleteButton.onclick = async function () {
+                let deleteReservation = await send("deleteReservation", id) as Reservation | null;
+                if (deleteReservation) {
+                    alert("Your reservation has been deleted successfully.");
+                    idInput2.value = "";
+                    reservationInfoDiv2.remove();
+                    deleteButton.remove();
+                } else {
+                    alert("Failed to delete your reservation. Please try again.");
+                }
+            }; 
         } else {
             alert("No reservation found with this information.");
             idInput2.value = "";

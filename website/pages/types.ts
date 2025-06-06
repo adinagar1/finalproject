@@ -1,3 +1,9 @@
+export type User = {
+    Id: string;
+    Username: string;
+    Password: string;
+    Conect: boolean;
+  };
 export type City = {
     Id: number,
     Name: string,

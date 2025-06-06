@@ -1,13 +1,80 @@
-#passwordInput {
-    -webkit-text-security: disc;
-  }
-  
-  #messageDiv {
-    color: red;
-  }
-  
-  .container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
+/* עיצוב כללי */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f4;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* קונטיינר */
+.container {
+  background-color: #fff;
+  padding: 30px 40px;
+  border-radius: 12px;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.15);
+  width: 300px;
+  text-align: center;
+}
+
+/* כותרת */
+.container h1 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #ffcc00;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+/* טבלה */
+table {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+td {
+  padding: 8px;
+  text-align: left;
+  font-size: 14px;
+  color: #333;
+}
+
+/* שדות קלט */
+input[type="text"] {
+  width: 100%;
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus {
+  border-color: #ffcc00;
+  outline: none;
+}
+
+/* כפתור */
+#submitButton {
+  width: 100%;
+  background-color: #ffcc00;
+  color: #333;
+  font-size: 16px;
+  padding: 10px 0;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#submitButton:hover {
+  background-color: #fff700;
+}
+
+/* הודעות */
+#messageDiv {
+  margin-top: 15px;
+  color: red;
+  font-size: 14px;
+}

@@ -16,7 +16,7 @@ class Program
         var database = new Database();
 
         // דוגמת נתונים
-        database.Users.Add(new User("1", "adi", "123"));
+        database.Users.Add(new User("1", "adi", "123", true));
 
         database.Cities.Add(new City("Tel Aviv", "https://did.li/f47CN"));
         database.Restaurants.Add(new Restaurant("sushimi - Dizengoff", "https://did.li/BGcmC", 1));
@@ -38,7 +38,6 @@ class Program
 
         database.SaveChanges();
 
-        // יצירת 30 מקומות לכל שעה בין 7 ל-21 לכל מסעדה
         foreach (var restaurant in database.Restaurants.ToList())
         {
             for (int hour = 7; hour <= 21; hour++)
@@ -93,13 +92,38 @@ class Program
 
                         response.Send(userId);
                     }
-                    else if (request.Path == "getUsername")
+                    else if (request.Path == "getUser")
                     {
                         var userId = request.GetBody<string>();
 
-                        var username = database.Users.Find(userId)?.Username;
+                        var user = database.Users.Find(userId);
+                            
+                        response.Send(user);
+                        
 
-                        response.Send(username);
+                    }
+                    else if (request.Path == "changeUserStatus")
+                    {
+                        var (userId, conect) = request.GetBody<(string, bool)>();
+
+                        var user = database.Users.Find(userId);
+
+                        if (user != null)
+                        {
+                            user.Conect = conect;
+                            database.SaveChanges();
+                            response.Send(true);
+                        }
+                        else
+                        {
+                            response.Send(false);
+                        }
+                    }
+                    else if (request.Path == "getUsers")
+                    {
+                        var users = database.Users.ToArray();
+
+                        response.Send(users);
                     }
                     else if (request.Path == "getCities")
                     {
@@ -131,6 +155,27 @@ class Program
 
                         response.Send(restaurant);
                     }
+                    else if (request.Path == "AddRestaurant")
+                    {
+                        var (cityId, name, image) = request.GetBody<( int, string, string)>();
+
+
+                            database.Restaurants.Add(new Restaurant(name, image, cityId));
+                        database.SaveChanges();
+                        var restaurant = database.Restaurants
+                            .Where(res => res.CityId == cityId && res.Name == name && res.Image == image)
+                            .Select(res => res.Id);
+                                       for (int hour = 7; hour <= 21; hour++)
+                                        {
+                                        for (int i = 0; i < 30; i++)
+                                        {
+                                        var place = new Place(true, hour, restaurant.FirstOrDefault());
+                                        database.Places.Add(place);
+                                        }
+                                        }
+                            response.Send(true);
+
+                    }
                     else if (request.Path == "addReservation")
                     {
                         var (time, name, phone, places, restaurantId) = request.GetBody<(int, string, int, int, int)>();
@@ -158,6 +203,42 @@ class Program
                         var reservation = database.Reservations.Find(reservationId);
 
                         response.Send(reservation);
+                    }
+                    else if (request.Path == "deleteReservation"){
+                        var reservationId = request.GetBody<int>();
+                        Console.WriteLine("Trying to delete reservation with ID: " + reservationId);
+                        var reservationToDelete = database.Reservations.FirstOrDefault(res => res.Id == reservationId);
+
+
+                        if (reservationToDelete != null)
+                        {
+
+                                    // שלב 1: מחיקה מהטבלה
+        database.Reservations.Remove(reservationToDelete);
+        database.SaveChanges();
+
+        // שלב 2: שחרור המקומות לפי השעה, מזהה מסעדה וכמות
+        var placesToFree = database.Places
+            .Where(p => p.Time == reservationToDelete.Time && 
+                        p.RestaurantId == reservationToDelete.RestaurantId &&
+                        !p.Available) // רק תפוסים
+            .Take(reservationToDelete.Places)
+            .ToList();
+
+        foreach (var place in placesToFree)
+        {
+            place.Available = true;
+            database.SaveChanges();
+        }
+
+
+
+                            response.Send(true);
+                        }
+                        else
+                        {
+                            response.Send(false);
+                        }
                     }
                     else if (request.Path == "getHours")
                     {
@@ -225,11 +306,12 @@ class Database : DbBase
     public DbSet<Place> Places { get; set; } = default!;
 }
 
-class User(string id, string username, string password)  // מחלקה שמתארת את המשתמש
+class User(string id, string username, string password, bool conect)  // מחלקה שמתארת את המשתמש
 {
   [Key] public string Id { get; set; } = id;  // מזהה ייחודי עבור המשתמש (למשל: "user123") - מזהה זה משמש לזיהוי המשתמש במערכת
   public string Username { get; set; } = username;  // שם המשתמש (למשל: "john_doe") - שם המשתמש ייחודי במערכת
-  public string Password { get; set; } = password;  // סיסמא של המשתמש (למשל: "password123") - הסיסמא משמשת לאימות זהות המשתמש
+  public string Password { get; set; } = password;
+  public bool Conect {get; set; } = conect; // סיסמא של המשתמש (למשל: "password123") - הסיסמא משמשת לאימות זהות המשתמש
 }
 class City(string name, string image)
 {

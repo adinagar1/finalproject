@@ -1,19 +1,73 @@
-a {
-    gap: 5px;
-    margin: 5px;
-    width: 180px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  img {
-    width: 150px;
-    border-radius: 10px;
-    box-shadow: 0px 5px 10px 1px rgba(0, 0, 0, 0.2);
-  }
-  
-  #CityDiv {
-    display: flex;
-    flex-wrap: wrap;
-  }
+/* עיצוב כללי */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background-color: #f4f4f4;
+}
+
+.container {
+  padding: 20px;
+}
+
+/* כותרת */
+h2 {
+  font-size: 32px;
+  font-weight: bold;
+  text-align: center;
+  color: #ffcc00;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
+}
+
+h2:hover {
+  color: #fff700;
+  transform: scale(1.1);
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+
+/* עיצוב לעיר */
+#CityDiv {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 30px;
+}
+
+
+
+/* עיצוב למסעדות */
+/* עיצוב למסעדות */
+#RestaurantsDiv {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.restaurant-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 120px;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 10px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.restaurant-card:hover {
+  transform: scale(1.05);
+}
+
+.restaurant-card img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 8px;
+}
+

@@ -1,4 +1,6 @@
 import { send } from "../utilities";
+import {  User } from "./types";
+
 
 let usernameInput = document.getElementById("usernameInput") as HTMLInputElement;
 let passwordInput = document.getElementById("passwordInput") as HTMLInputElement;
@@ -16,5 +18,6 @@ submitButton.onclick = async function () {
   else {
     localStorage.setItem("userId", id);
     location.href = "index.html";
+    let conected = await send("changeUserStatus",[id, false] ) as boolean;
   }
 }

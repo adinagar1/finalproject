@@ -15,10 +15,6 @@ let cityName = document.createElement("h1");
 cityName.innerText = cityData.Name;
 cityDiv.appendChild(cityName);
 
-let cityImage = document.createElement("img");
-cityImage.src = cityData.Image;
-cityDiv.appendChild(cityImage);
-
 // שליחה לשרת על מנת לקבל את המסעדות בעיר
 let restaurants = await send("getRestaurants", cityId) as Restaurant[];
 
@@ -28,10 +24,12 @@ for (let i = 0; i < restaurants.length; i++) {
 
     let a = document.createElement("a");
     a.href = "restaurant.html?restaurantId=" + restaurant.Id;  // קישור לעמוד המסעדה
+    a.classList.add("restaurant-card");  // הוספת המחלקה!
     restaurantsDiv.appendChild(a);
 
     let img = document.createElement("img");
     img.src = restaurant.Image;
+    img.classList.add("restaurant-img");  // אפשר להוסיף מחלקה אם תרצה
     a.appendChild(img);
 
     let div = document.createElement("div");

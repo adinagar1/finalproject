@@ -45,6 +45,17 @@ body {
     font-size: 16px;
     font-weight: bold;
   }
+
+  #Divbutton {
+    display: flex;              /* להציב את כל הכרטיסים בשורה */
+    flex-wrap: wrap;            /* אם אין מקום בשורה, לשבור לשורה הבאה */
+    justify-content: center;    /* מרכז את הכרטיסים בתוך הדיב */
+    gap: 20px;        
+              /* רווחים בין כל כרטיס לכרטיס */
+  }
+  #Divbutton a:hover {
+    transform: scale(1.05);     /* אפקט התגדלות בעת ריחוף עם העכבר */
+  }
   h2 {
     font-size: 32px;                  /* גודל גופן גדול */
     font-weight: bold;                /* הדגשה של הגופן */
@@ -61,3 +72,65 @@ body {
     transition: transform 0.3s ease, color 0.3s ease; /* מעבר חלק */
   }
     
+#popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+
+.popup-modal {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  min-width: 300px;
+}
+
+.popup-modal input {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.popup-modal button {
+  margin-top: 10px;
+  cursor: pointer; /* מצביע על כך שזה לחיץ */
+
+}
+
+.popup-modal button + button {
+  margin-left: 10px;
+  cursor: pointer; /* מצביע על כך שזה לחיץ */
+
+}
+#sumbit{
+  background-color: #ffcc00; /* צבע רקע צהוב */
+  color: #333; /* צבע טקסט כהה */
+  border: none; /* ללא גבול */
+  padding: 10px 20px; /* ריווח פנימי */
+  border-radius: 5px; /* פינות מעוגלות */
+  cursor: pointer; /* מצביע על כך שזה לחיץ */
+  font-size: 16px; /* גודל גופן */
+  transition: background-color 0.3s ease; /* מעבר חלק לצבע הרקע */
+}
+#close {
+  background-color: #ffcc00; /* צבע רקע צהוב */
+  color: #333; /* צבע טקסט כהה */
+  border: none; /* ללא גבול */
+  padding: 10px 20px; /* ריווח פנימי */
+  border-radius: 5px; /* פינות מעוגלות */
+  cursor: pointer; /* מצביע על כך שזה לחיץ */
+  font-size: 16px; /* גודל גופן */
+  transition: background-color 0.3s ease; /* מעבר חלק לצבע הרקע */
+}
+
+.hidden {
+  display: none !important; /* מחביא אלמנטים כשצריך */
+}
