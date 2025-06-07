@@ -24,13 +24,13 @@ class Program
         database.Restaurants.Add(new Restaurant("sushimi - Allenby", "https://did.li/BGcmC", 1));
         database.Restaurants.Add(new Restaurant("sushimi - Ibn Gabiro", "https://did.li/BGcmC", 1));
 
-        database.Cities.Add(new City("Jerusalem", "https://did.li/wezgT"));
+        database.Cities.Add(new City("Jerusalem", "https://th.bing.com/th/id/OSK.HEROrZzcnXDKFpxnFkTRkRcPnXyhdh-ISWgL1iB2AP0xgWY?r=0&o=7rm=3&rs=1&pid=ImgDetMain"));
         database.Restaurants.Add(new Restaurant("sushimi - Jaffa", "https://did.li/BGcmC", 2));
         database.Restaurants.Add(new Restaurant("sushimi - King George", "https://did.li/BGcmC", 2));
         database.Restaurants.Add(new Restaurant("sushimi - Agripas", "https://did.li/BGcmC", 2));
         database.Restaurants.Add(new Restaurant("sushimi - Emek Refaim", "https://did.li/BGcmC", 2));
 
-        database.Cities.Add(new City("Haifa", "https://did.li/Np2TY"));
+        database.Cities.Add(new City("Haifa", "https://did.li/wezgT"));
         database.Restaurants.Add(new Restaurant("sushimi - Herzl", "https://did.li/BGcmC", 3));
         database.Restaurants.Add(new Restaurant("sushimi - Ben Gurion", "https://did.li/BGcmC", 3));
         database.Restaurants.Add(new Restaurant("sushimi - Horev", "https://did.li/BGcmC", 3));

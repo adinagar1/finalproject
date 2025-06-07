@@ -40,7 +40,7 @@ let timeSelect = document.createElement("select");
 reservationGroup.appendChild(timeSelect);
 
 let defaultOption = document.createElement("option");
-defaultOption.text = "00:00";
+defaultOption.text = "None";
 defaultOption.disabled = true;
 defaultOption.selected = true;
 timeSelect.appendChild(defaultOption);
@@ -178,9 +178,11 @@ let myReserveButton = document.createElement("button");
 myReserveButton.innerText = "My Reservation";
 reservationGroup.appendChild(myReserveButton);
 
+
 // לחיצה על "Confirm"
 confirmButton.onclick = async function () {
-    if (timeSelect.value != "" && phoneInput.value.length == 10 && phoneInput.value.startsWith("05") && phoneInput.value.match(/^[0-9]+$/)) {
+  let selectedButtons2 = document.querySelectorAll(".place_button.selected");
+    if (timeSelect.value != "" && phoneInput.value.length == 10 && phoneInput.value.startsWith("05") && phoneInput.value.match(/^[0-9]+$/) && selectedButtons2.length > 0) {
         let time = parseInt(timeSelect.value);
         let name = nameInput.value;
         let phone =phoneInput.value;
@@ -279,19 +281,26 @@ confirmButton.onclick = async function () {
                   btn.style.top = `${y}px`;
                 }}
             // בדיקה אם כל המקומות תפוסים (כל המקומות לא זמינים)
-            let allTaken = updatedPlaces.every(p => !p.Available);
+            let allTaken = updatedPlaces.every(p => !p.Available) as boolean;
             if (allTaken) {
                 let option = document.querySelector(`option[value="${time}"]`) as HTMLOptionElement;
                 if (option) {
                     option.disabled = true;
                 }
             }
+            else{
+                let option = document.querySelector(`option[value="${time}"]`) as HTMLOptionElement;
+                if (option) {
+                    option.disabled = false;
+                }
+            }
 
-            alert("ההזמנה אושרה! מספר ההזמנה שלך הוא: " + newReservation);
+            alert("Your reservation has been successfully done. Your number reservation: " + newReservation);
         }
     } else {
-        alert("מספר הטלפון שלך לא תקין. אנא נסה שנית.");
+        alert("Please fill in all fields correctly:");
         phoneInput.value = "";
+        nameInput.value = "";
     }
 };
 
@@ -338,7 +347,7 @@ myReserveButton.onclick = async function () {
     viewGroup.appendChild(backButton);
 
                 let deleteButton = document.createElement("button");
-            deleteButton.innerText = "Delete";
+            deleteButton.innerText = "Cancel My Reservation";
             viewGroup.appendChild(deleteButton);
             deleteButton.style.display = "none"; // התחל עם כפתור מחיקה מוסתר
 
