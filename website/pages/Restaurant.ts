@@ -337,6 +337,11 @@ myReserveButton.onclick = async function () {
     backButton.innerText = "Back to Reservation";
     viewGroup.appendChild(backButton);
 
+                let deleteButton = document.createElement("button");
+            deleteButton.innerText = "Delete";
+            viewGroup.appendChild(deleteButton);
+            deleteButton.style.display = "none"; // התחל עם כפתור מחיקה מוסתר
+
     findMyReservationButton.onclick = async function () {
 
         // נקה תצוגה ישנה
@@ -352,15 +357,14 @@ myReserveButton.onclick = async function () {
         let myReservation = await send("getReservation", id) as Reservation;
     
         if (myReservation && phoneInput2.value === myReservation.Phone.toString()) {
+          deleteButton.style.display = "inline"; // הצג כפתור מחיקה אם נמצאה הזמנה
             let reservationInfoDiv2 = document.createElement("div");
             reservationInfoDiv2.id = "reservationInfo";
             reservationInfoDiv2.innerText =
                 `Your reservation is at ${myReservation.Time}:00 for ${myReservation.Name} with phone number: ${myReservation.Phone}. Your number of seats: ${myReservation.Place}`;
             viewGroup.appendChild(reservationInfoDiv2);
     
-            let deleteButton = document.createElement("button");
-            deleteButton.innerText = "Delete";
-            viewGroup.appendChild(deleteButton);
+
     
             deleteButton.onclick = async function () {
                 let deleteReservation = await send("deleteReservation", id) as Reservation | null;
