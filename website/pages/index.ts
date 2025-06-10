@@ -40,7 +40,7 @@ title.innerText = "Add Restaurant";
 modal.appendChild(title);
 
 let div = document.createElement("div");
-div.innerText = "City ID";
+div.innerText = "City Name";
 modal.appendChild(div);
 
 let input = document.createElement("input");
@@ -63,14 +63,21 @@ modal.appendChild(input3);
 let submit = document.createElement("button");
 submit.innerText = "Submit";
 submit.id = "sumbit";
+
 submit.onclick = async function () {
-    let city = await send("AddRestaurant", [parseInt(input.value), input2.value, input3.value]) as boolean; 
+  
+let cityId = await send("getCityIdByName", input.value) as number;
+
+    let city = await send("AddRestaurant", [cityId, input2.value, input3.value]) as boolean; 
     if (city) {
   alert("Added restaurant: " + input2.value);
   document.body.removeChild(overlay);
 }
   else {
     alert("Failed to add restaurant. Please check the inputs.");
+  input.value = "";
+  input2.value = "";
+  input3.value = "";
   }}
 modal.appendChild(submit);
 

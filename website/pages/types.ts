@@ -22,7 +22,7 @@ export type City = {
     Time: number;
     Name: string; 
     Phone: number;
-    Place: number;
+    Places: number;
     RestaurantId: number;
   }
   export type Place = {

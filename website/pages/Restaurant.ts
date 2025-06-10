@@ -377,9 +377,10 @@ myReserveButton.onclick = async function () {
         if (myReservation && phoneInput2.value === myReservation.Phone.toString()) {
           deleteButton.style.display = "inline"; // הצג כפתור מחיקה אם נמצאה הזמנה
             let reservationInfoDiv2 = document.createElement("div");
-            reservationInfoDiv2.id = "reservationInfo";
+            let NumberOfPlaces = myReservation.Places;
+            reservationInfoDiv2.id = "Reservation Info:";
             reservationInfoDiv2.innerText =
-                `Your reservation is at ${myReservation.Time}:00 for ${myReservation.Name} with phone number: ${myReservation.Phone}.`;
+                `Your reservation is at ${myReservation.Time}:00 for ${myReservation.Name} with phone number: ${myReservation.Phone}. and the number of places reserved is: ${myReservation.Places}.`;
             viewGroup.appendChild(reservationInfoDiv2);
     
 

@@ -139,6 +139,16 @@ class Program
 
                         response.Send(city);
                     }
+                    else if (request.Path == "getCityIdByName"){
+                        var cityName = request.GetBody<string>();
+
+                        var cityId = database.Cities
+                            .Where(city => city.Name == cityName)
+                            .Select(city => city.Id)
+                            .FirstOrDefault();
+
+                        response.Send(cityId);
+                    }
                     else if (request.Path == "getRestaurants")
                     {
                         var cityId = request.GetBody<int>();
