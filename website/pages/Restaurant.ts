@@ -45,14 +45,23 @@ defaultOption.disabled = true;
 defaultOption.selected = true;
 timeSelect.appendChild(defaultOption);
 
+let num = 0;
+let allPlaces = await send("getPlaces", [restaurantId, 0]) as Place[];
 // בניית רשימת שעות (07:00–21:00)
 for (let i = 7; i < 22; i++) {
     let option = document.createElement("option");
     option.value = i.toString();
     option.innerText = i.toString().padStart(2, '0') + ":00";
-    if (hours.includes(i)) {
-        option.disabled = true;
-    }
+for (let place of allPlaces) {
+  if (place.Available == true){
+    num++;
+  }}
+if (num == 28){
+  option.disabled = true; // אם כבר יש 28 הזמנות, השעה תהיה לא זמינה}
+  }
+else{
+  option.disabled = false; // אחרת, השעה תהיה זמינה
+  }
     timeSelect.appendChild(option);
 }
 
@@ -370,7 +379,7 @@ myReserveButton.onclick = async function () {
             let reservationInfoDiv2 = document.createElement("div");
             reservationInfoDiv2.id = "reservationInfo";
             reservationInfoDiv2.innerText =
-                `Your reservation is at ${myReservation.Time}:00 for ${myReservation.Name} with phone number: ${myReservation.Phone}. Your number of seats: ${myReservation.Place}`;
+                `Your reservation is at ${myReservation.Time}:00 for ${myReservation.Name} with phone number: ${myReservation.Phone}.`;
             viewGroup.appendChild(reservationInfoDiv2);
     
 

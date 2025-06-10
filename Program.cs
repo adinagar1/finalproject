@@ -178,19 +178,19 @@ class Program
                     }
                     else if (request.Path == "addReservation")
                     {
-                        var (time, name, phone, places, restaurantId) = request.GetBody<(int, string, string, int, int)>();
+                        var (time, name, phone, selectedPlaceCount, restaurantId) = request.GetBody<(int, string, string, int, int)>();
                         var exists = database
                             .Reservations
-                            .Any(res => res.RestaurantId == restaurantId && res.Time == time && res.Name == name && res.Phone == phone && res.Places == places);
+                            .Any(res => res.RestaurantId == restaurantId && res.Time == time && res.Name == name && res.Phone == phone && res.Places == selectedPlaceCount);
 
                         if (!exists)
                         {
-                            database.Reservations.Add(new Reservation(time, name, phone, places, restaurantId));
+                            database.Reservations.Add(new Reservation(time, name, phone, selectedPlaceCount, restaurantId));
                         }
 
                         var reservationId = database
                             .Reservations
-                            .Where(res => res.RestaurantId == restaurantId && res.Time == time && res.Name == name && res.Phone == phone && res.Places == places)
+                            .Where(res => res.RestaurantId == restaurantId && res.Time == time && res.Name == name && res.Phone == phone && res.Places == selectedPlaceCount)
                             .Select(reservation => reservation.Id)
                             .FirstOrDefault();
 
