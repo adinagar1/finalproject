@@ -289,20 +289,6 @@ confirmButton.onclick = async function () {
                   btn.style.left = `${x}px`;
                   btn.style.top = `${y}px`;
                 }}
-            // בדיקה אם כל המקומות תפוסים (כל המקומות לא זמינים)
-            let allTaken = updatedPlaces.every(p => !p.Available) as boolean;
-            if (allTaken) {
-                let option = document.querySelector(`option[value="${time}"]`) as HTMLOptionElement;
-                if (option) {
-                    option.disabled = true;
-                }
-            }
-            else{
-                let option = document.querySelector(`option[value="${time}"]`) as HTMLOptionElement;
-                if (option) {
-                    option.disabled = false;
-                }
-            }
 
             alert("Your reservation has been successfully done. Your number reservation: " + newReservation);
         }
