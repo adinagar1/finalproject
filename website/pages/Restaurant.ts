@@ -191,7 +191,7 @@ reservationGroup.appendChild(myReserveButton);
 // לחיצה על "Confirm"
 confirmButton.onclick = async function () {
   let selectedButtons2 = document.querySelectorAll(".place_button.selected");
-    if (timeSelect.value != "" && phoneInput.value.length == 10 && phoneInput.value.startsWith("05") && phoneInput.value.match(/^[0-9]+$/) && selectedButtons2.length > 0) {
+    if (timeSelect.value != "" && phoneInput.value.length == 10 && phoneInput.value.startsWith("05") && phoneInput.value.match(/^[0-9]+$/) && selectedButtons2.length > 0 && nameInput.value.trim() !== "") {
         let time = parseInt(timeSelect.value);
         let name = nameInput.value;
         let phone =phoneInput.value;
