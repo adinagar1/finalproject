@@ -14,29 +14,32 @@ class Program
         Console.WriteLine($"Main Page: http://localhost:{port}/website/pages/index.html");
 
         var database = new Database();
+        if (database.IsNewlyCreated())
+        {
+            // דוגמת נתונים
+            database.Users.Add(new User("1", "adi", "123", true));
 
-        // דוגמת נתונים
-        database.Users.Add(new User("1", "adi", "123", true));
+            database.Cities.Add(new City("Tel Aviv", "https://did.li/f47CN"));
+            database.Restaurants.Add(new Restaurant("sushimi - Dizengoff", "https://did.li/BGcmC", 1));
+            database.Restaurants.Add(new Restaurant("sushimi - Rothschild", "https://did.li/BGcmC", 1));
+            database.Restaurants.Add(new Restaurant("sushimi - Allenby", "https://did.li/BGcmC", 1));
+            database.Restaurants.Add(new Restaurant("sushimi - Ibn Gabiro", "https://did.li/BGcmC", 1));
 
-        database.Cities.Add(new City("Tel Aviv", "https://did.li/f47CN"));
-        database.Restaurants.Add(new Restaurant("sushimi - Dizengoff", "https://did.li/BGcmC", 1));
-        database.Restaurants.Add(new Restaurant("sushimi - Rothschild", "https://did.li/BGcmC", 1));
-        database.Restaurants.Add(new Restaurant("sushimi - Allenby", "https://did.li/BGcmC", 1));
-        database.Restaurants.Add(new Restaurant("sushimi - Ibn Gabiro", "https://did.li/BGcmC", 1));
+            database.Cities.Add(new City("Jerusalem", "https://th.bing.com/th/id/OSK.HEROrZzcnXDKFpxnFkTRkRcPnXyhdh-ISWgL1iB2AP0xgWY?r=0&o=7rm=3&rs=1&pid=ImgDetMain"));
+            database.Restaurants.Add(new Restaurant("sushimi - Jaffa", "https://did.li/BGcmC", 2));
+            database.Restaurants.Add(new Restaurant("sushimi - King George", "https://did.li/BGcmC", 2));
+            database.Restaurants.Add(new Restaurant("sushimi - Agripas", "https://did.li/BGcmC", 2));
+            database.Restaurants.Add(new Restaurant("sushimi - Emek Refaim", "https://did.li/BGcmC", 2));
 
-        database.Cities.Add(new City("Jerusalem", "https://th.bing.com/th/id/OSK.HEROrZzcnXDKFpxnFkTRkRcPnXyhdh-ISWgL1iB2AP0xgWY?r=0&o=7rm=3&rs=1&pid=ImgDetMain"));
-        database.Restaurants.Add(new Restaurant("sushimi - Jaffa", "https://did.li/BGcmC", 2));
-        database.Restaurants.Add(new Restaurant("sushimi - King George", "https://did.li/BGcmC", 2));
-        database.Restaurants.Add(new Restaurant("sushimi - Agripas", "https://did.li/BGcmC", 2));
-        database.Restaurants.Add(new Restaurant("sushimi - Emek Refaim", "https://did.li/BGcmC", 2));
+            database.Cities.Add(new City("Haifa", "https://did.li/wezgT"));
+            database.Restaurants.Add(new Restaurant("sushimi - Herzl", "https://did.li/BGcmC", 3));
+            database.Restaurants.Add(new Restaurant("sushimi - Ben Gurion", "https://did.li/BGcmC", 3));
+            database.Restaurants.Add(new Restaurant("sushimi - Horev", "https://did.li/BGcmC", 3));
+            database.Restaurants.Add(new Restaurant("sushimi - HaNassi", "https://did.li/BGcmC", 3));
 
-        database.Cities.Add(new City("Haifa", "https://did.li/wezgT"));
-        database.Restaurants.Add(new Restaurant("sushimi - Herzl", "https://did.li/BGcmC", 3));
-        database.Restaurants.Add(new Restaurant("sushimi - Ben Gurion", "https://did.li/BGcmC", 3));
-        database.Restaurants.Add(new Restaurant("sushimi - Horev", "https://did.li/BGcmC", 3));
-        database.Restaurants.Add(new Restaurant("sushimi - HaNassi", "https://did.li/BGcmC", 3));
+            database.SaveChanges();
+        }
 
-        database.SaveChanges();
 
         foreach (var restaurant in database.Restaurants.ToList())
         {
@@ -97,9 +100,9 @@ class Program
                         var userId = request.GetBody<string>();
 
                         var user = database.Users.Find(userId);
-                            
+
                         response.Send(user);
-                        
+
 
                     }
                     else if (request.Path == "changeUserStatus")
@@ -139,7 +142,8 @@ class Program
 
                         response.Send(city);
                     }
-                    else if (request.Path == "getCityIdByName"){
+                    else if (request.Path == "getCityIdByName")
+                    {
                         var cityName = request.GetBody<string>();
 
                         var cityId = database.Cities
@@ -167,23 +171,23 @@ class Program
                     }
                     else if (request.Path == "AddRestaurant")
                     {
-                        var (cityId, name, image) = request.GetBody<( int, string, string)>();
+                        var (cityId, name, image) = request.GetBody<(int, string, string)>();
 
 
-                            database.Restaurants.Add(new Restaurant(name, image, cityId));
+                        database.Restaurants.Add(new Restaurant(name, image, cityId));
                         database.SaveChanges();
                         var restaurant = database.Restaurants
                             .Where(res => res.CityId == cityId && res.Name == name && res.Image == image)
                             .Select(res => res.Id);
-                                       for (int hour = 7; hour <= 21; hour++)
-                                        {
-                                        for (int i = 0; i < 30; i++)
-                                        {
-                                        var place = new Place(true, hour, restaurant.FirstOrDefault());
-                                        database.Places.Add(place);
-                                        }
-                                        }
-                            response.Send(true);
+                        for (int hour = 7; hour <= 21; hour++)
+                        {
+                            for (int i = 0; i < 30; i++)
+                            {
+                                var place = new Place(true, hour, restaurant.FirstOrDefault());
+                                database.Places.Add(place);
+                            }
+                        }
+                        response.Send(true);
 
                     }
                     else if (request.Path == "addReservation")
@@ -214,7 +218,8 @@ class Program
 
                         response.Send(reservation);
                     }
-                    else if (request.Path == "deleteReservation"){
+                    else if (request.Path == "deleteReservation")
+                    {
                         var reservationId = request.GetBody<int>();
                         Console.WriteLine("Trying to delete reservation with ID: " + reservationId);
                         var reservationToDelete = database.Reservations.FirstOrDefault(res => res.Id == reservationId);
@@ -223,23 +228,23 @@ class Program
                         if (reservationToDelete != null)
                         {
 
-                                    // שלב 1: מחיקה מהטבלה
-        database.Reservations.Remove(reservationToDelete);
-        database.SaveChanges();
+                            // שלב 1: מחיקה מהטבלה
+                            database.Reservations.Remove(reservationToDelete);
+                            database.SaveChanges();
 
-        // שלב 2: שחרור המקומות לפי השעה, מזהה מסעדה וכמות
-        var placesToFree = database.Places
-            .Where(p => p.Time == reservationToDelete.Time && 
-                        p.RestaurantId == reservationToDelete.RestaurantId &&
-                        !p.Available) // רק תפוסים
-            .Take(reservationToDelete.Places)
-            .ToList();
+                            // שלב 2: שחרור המקומות לפי השעה, מזהה מסעדה וכמות
+                            var placesToFree = database.Places
+                                .Where(p => p.Time == reservationToDelete.Time &&
+                                            p.RestaurantId == reservationToDelete.RestaurantId &&
+                                            !p.Available) // רק תפוסים
+                                .Take(reservationToDelete.Places)
+                                .ToList();
 
-        foreach (var place in placesToFree)
-        {
-            place.Available = true;
-            database.SaveChanges();
-        }
+                            foreach (var place in placesToFree)
+                            {
+                                place.Available = true;
+                                database.SaveChanges();
+                            }
 
 
 
@@ -318,40 +323,40 @@ class Database : DbBase
 
 class User(string id, string username, string password, bool conect)  // מחלקה שמתארת את המשתמש
 {
-  [Key] public string Id { get; set; } = id;  // מזהה ייחודי עבור המשתמש (למשל: "user123") - מזהה זה משמש לזיהוי המשתמש במערכת
-  public string Username { get; set; } = username;  // שם המשתמש (למשל: "john_doe") - שם המשתמש ייחודי במערכת
-  public string Password { get; set; } = password;
-  public bool Conect {get; set; } = conect; // סיסמא של המשתמש (למשל: "password123") - הסיסמא משמשת לאימות זהות המשתמש
+    [Key] public string Id { get; set; } = id;  // מזהה ייחודי עבור המשתמש (למשל: "user123") - מזהה זה משמש לזיהוי המשתמש במערכת
+    public string Username { get; set; } = username;  // שם המשתמש (למשל: "john_doe") - שם המשתמש ייחודי במערכת
+    public string Password { get; set; } = password;
+    public bool Conect { get; set; } = conect; // סיסמא של המשתמש (למשל: "password123") - הסיסמא משמשת לאימות זהות המשתמש
 }
 class City(string name, string image)
 {
-  [Key] public int Id { get; set; } = default!;
-  public string Name { get; set; } = name;
-  public string Image { get; set; } = image;
+    [Key] public int Id { get; set; } = default!;
+    public string Name { get; set; } = name;
+    public string Image { get; set; } = image;
 }
 class Restaurant(string name, string image, int cityId)
 {
-  [Key] public int Id { get; set; } = default!;
-  public string Name { get; set; } = name;
-  public string Image { get; set; } = image;
-  public int CityId { get; set; } = cityId;
-  [ForeignKey("CityId")] public City City { get; set; } = default!;
+    [Key] public int Id { get; set; } = default!;
+    public string Name { get; set; } = name;
+    public string Image { get; set; } = image;
+    public int CityId { get; set; } = cityId;
+    [ForeignKey("CityId")] public City City { get; set; } = default!;
 }
-class Reservation(int time, string name, string phone,int places, int restaurantId )
+class Reservation(int time, string name, string phone, int places, int restaurantId)
 {
-  [Key] public int Id { get; set; } = default!;
-  public int Time { get; set; } = time;
-  public string Name { get; set; } = name;
-  public string Phone { get; set; } = phone;
-  public int Places { get; set; } = places;
-  public int RestaurantId { get; set; } = restaurantId;
-  [ForeignKey("RestaurantId")] public Restaurant Restaurant { get; set; } = default!;
+    [Key] public int Id { get; set; } = default!;
+    public int Time { get; set; } = time;
+    public string Name { get; set; } = name;
+    public string Phone { get; set; } = phone;
+    public int Places { get; set; } = places;
+    public int RestaurantId { get; set; } = restaurantId;
+    [ForeignKey("RestaurantId")] public Restaurant Restaurant { get; set; } = default!;
 }
-class Place(bool available, int time,int restaurantId)
+class Place(bool available, int time, int restaurantId)
 {
-  [Key] public int Id { get; set; } = default!;
-  public bool Available { get; set; } = available;
-  public int Time {get; set; } = time;
-  public int RestaurantId { get; set; } = restaurantId;
-  [ForeignKey("RestaurantId")] public Restaurant Restaurant { get; set; } = default!;
+    [Key] public int Id { get; set; } = default!;
+    public bool Available { get; set; } = available;
+    public int Time { get; set; } = time;
+    public int RestaurantId { get; set; } = restaurantId;
+    [ForeignKey("RestaurantId")] public Restaurant Restaurant { get; set; } = default!;
 }

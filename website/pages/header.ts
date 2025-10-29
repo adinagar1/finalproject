@@ -13,7 +13,7 @@ let LogOutButton = document.getElementById("LogOutButton") as HTMLButtonElement;
 
 
 LogInButton.onclick = function () {
-  top!.location.href = "logIn.html";
+  top!.location.href = "Login.html";
 };
 
 LogOutButton.onclick = async function logOut() {
